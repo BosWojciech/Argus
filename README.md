@@ -4,7 +4,10 @@ Generator danych testowych - a desktop app that generates formally valid Polish
 test data (PESEL, dowód osobisty, NIP, REGON, IBAN, payment cards, VIN, plates).
 Names, addresses and banks come from Polish public registers, weighted by real frequency.
 
-Requires [uv](https://docs.astral.sh/uv/) and Python 3.13 or newer with Tk
+**Windows, no installation:** download `Argus.exe` from the repository root and
+double-click it. It is rebuilt automatically on every push to `main`.
+
+Otherwise, requires [uv](https://docs.astral.sh/uv/) and Python 3.13 or newer with Tk
 (see [Installing Python](#installing-python)).
 
 ```bash

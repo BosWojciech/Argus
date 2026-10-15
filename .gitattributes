@@ -2,3 +2,5 @@
 *.cmd text eol=crlf
 # Generated SQLite database.
 *.db binary
+# Windows build of the app.
+*.exe binary

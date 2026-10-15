@@ -1,0 +1,31 @@
+# Builds Argus.exe on Windows and commits it to the repo root, so it runs without installing anything.
+name: Build Argus.exe
+
+on:
+  push:
+    branches: [main]
+    paths: [src/**, db/**, pyproject.toml, uv.lock, .github/workflows/exe.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --python 3.13 --no-dev
+      - run: >
+          uv run --with pyinstaller pyinstaller --onefile --windowed --name Argus
+          --paths src --collect-data customtkinter --add-data "db/argus.db;db"
+          --distpath . src/argus/__main__.py
+      - name: Commit Argus.exe
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add Argus.exe
+          git diff --cached --quiet || git commit -m "Build Argus.exe"
+          git pull --rebase && git push

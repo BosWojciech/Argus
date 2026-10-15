@@ -9,12 +9,14 @@ the small lists in ``argus.fallback`` are used instead.
 import os
 import random
 import sqlite3
+import sys
 from pathlib import Path
 
 from argus import fallback
 
-# Repository-level db/ directory; ARGUS_DB points elsewhere when set.
-DB_PATH = Path(os.environ.get("ARGUS_DB") or Path(__file__).resolve().parents[2] / "db" / "argus.db")
+# Repository-level db/ directory (or the bundle dir inside Argus.exe); ARGUS_DB points elsewhere when set.
+_ROOT = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parents[2]))
+DB_PATH = Path(os.environ.get("ARGUS_DB") or _ROOT / "db" / "argus.db")
 
 _db: sqlite3.Connection | None = None
 _totals: dict[tuple, int] = {}
